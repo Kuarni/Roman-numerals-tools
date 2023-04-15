@@ -1,7 +1,20 @@
-fun inSupportRomanDigit(char: Char): Boolean {
-    if (char.code in "2160".toInt(16).."2188".toInt(16)) return true
+fun inSupportRomanDigit(romanDigit: Char): Boolean {
+    if (romanDigit.code in "2160".toInt(16).."2188".toInt(16)) return true
     val otherChars = LatinRomanNum.keys + OtherRomanNum.keys
-    return char in otherChars
+    return romanDigit in otherChars
+}
+
+fun getArabic(romanDigit: Char): Int? {
+    return when (romanDigit) {
+        in LatinRomanNum.keys -> LatinRomanNum[romanDigit]
+        in UnicodeRomanNum.keys -> UnicodeRomanNum[romanDigit]
+        in OtherRomanNum.keys -> OtherRomanNum[romanDigit]
+        else -> {
+            if (romanDigit.code in "2170".toInt(16).."217F".toInt(16))
+                UnicodeRomanNum[romanDigit - 16]
+            else null
+        }
+    }
 }
 
 val LatinRomanNum = mapOf(
